@@ -63,6 +63,12 @@ void move_player(PLAYER *p) {
 }
 
 void change_direction(PLAYER *p, char cmd) {
+	if((p->going == 'u' && cmd == 'd') || (p->going == 'd' && cmd == 'u'))
+		return;
+	if((p->going == 'r' && cmd == 'l') || (p->going == 'l' && cmd == 'r'))
+		return;
+	if(p->going == cmd)
+		return;
 	p->going = cmd;
 	move_player(p);
 }
