@@ -1,22 +1,6 @@
 #include <ncurses.h>
 #include "window.h"
 
-void resize_window(WINDOW *win, WINDOW *score, int *parent_x, int *parent_y, int *new_x, int *new_y) {
-
-	*parent_x = *new_x;
-	*parent_y = *new_y;
-	wresize(win, *new_y - SCORE_SIZE, *new_x);
-	wresize(score, SCORE_SIZE, *new_x);
-
-	mvwin(score, 0, 0);
-
-	wclear(stdscr);
-	wclear(win);
-	wclear(score);
-
-	//draw_borders(win);
-}
-
 void draw_borders(WINDOW *screen) {
 	int x, y, i;
 

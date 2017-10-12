@@ -2,10 +2,7 @@
 #define _PLAYER_H_
 
 #include <ncurses.h>
-
-#define BOOLEAN int
-#define TRUE 1
-#define FALSE 0
+#include <stdbool.h>
 
 typedef struct {
 	int x, y;
@@ -25,6 +22,6 @@ void destroy_player(PLAYER *);
 void move_player(PLAYER *);
 void change_direction(PLAYER *, char);
 void draw_player(WINDOW *, PLAYER *);
-BOOLEAN collision(WINDOW *, PLAYER *);
+bool collision(WINDOW *, PLAYER *);
 
 #endif

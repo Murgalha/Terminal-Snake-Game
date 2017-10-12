@@ -3,7 +3,6 @@
 
 #define SCORE_SIZE 1
 
-void resize_window(WINDOW *, WINDOW *, int *, int *, int *, int *);
 void draw_borders(WINDOW *);
 
 #endif

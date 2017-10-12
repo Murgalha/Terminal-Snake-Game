@@ -33,9 +33,7 @@ int kbhit() {
 }
 
 int main(int argc, char *argv[]){
-	int max_x, max_y, new_x, new_y;
-    int win_x, win_y;
-	int i = 1, j = 1;
+	int max_x, max_y;
 	PLAYER *p;
 	char c;
 

@@ -1,5 +1,5 @@
 COMPILER=gcc
-FLAGS=-lncurses
+FLAGS=-lncurses -Wall -g
 SOURCE=src/*.c
 INCLUDE=-Iinclude
 BUILD=build/snake

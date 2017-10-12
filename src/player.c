@@ -1,17 +1,18 @@
 #include <stdlib.h>
 #include <ncurses.h>
+#include <stdbool.h>
 #include "player.h"
 
-BOOLEAN collision(WINDOW *w, PLAYER *p) {
+bool collision(WINDOW *w, PLAYER *p) {
 	int border_x, border_y;
 
 	getmaxyx(w, border_y, border_x);
 
 	if(p->body[0].x == border_x-1 || p->body[0].x == 0)
-		return TRUE;
+		return true;
 	if(p->body[0].y == border_y-1 || p->body[0].y == 0)
-		return TRUE;
-	return FALSE;
+		return true;
+	return false;
 }
 
 PLAYER *create_player(int y, int x) {
@@ -20,11 +21,14 @@ PLAYER *create_player(int y, int x) {
 
 	p->going = 'r';
 	p->score = 0;
-	p->body = (POINT *) malloc (sizeof(POINT));
-	p->body[0].x = x;
-	p->body[0].y = y;
+	p->body = (POINT *) malloc (sizeof(POINT)*4);
 
-	p->body_size = 1;
+	for(i = 0; i < 4; i++) {
+		p->body[i].x = x-i;
+		p->body[i].y = y;
+	}
+
+	p->body_size = 4;
 	p->last_pos.x = -1;
 	p->last_pos.y = -1;
 
@@ -39,10 +43,10 @@ void destroy_player(PLAYER *p) {
 void move_player(PLAYER *p) {
 	int i;
 
-	p->last_pos.x = p->body[p->body_size-1].x;
-	p->last_pos.y = p->body[p->body_size-1].y;
+	p->last_pos.x = p->body[(p->body_size)-1].x;
+	p->last_pos.y = p->body[(p->body_size)-1].y;
 
-	for(i = p->body_size-1; i > 0; i++)
+	for(i = (p->body_size)-1; i > 0; i--)
 		p->body[i] = p->body[i-1];
 
 	if(p->going == 'u')
