@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include "utils.h"
 #include "window.h"
 #include "player.h"
 
@@ -36,6 +37,7 @@ int main(int argc, char *argv[]){
 	int max_x, max_y;
 	PLAYER *p;
 	char c;
+    POINT *fruit = NULL;
 
 	initscr();
 	noecho();
@@ -56,9 +58,11 @@ int main(int argc, char *argv[]){
 		draw_player(win, p);
         mvwprintw(score, 0, (max_x)/2-((strlen("Score: ")+4)/2), "Score: ");
 
-		wrefresh(win);
-		wrefresh(score);
-		usleep(100000);
+        while(!vpp(p, fruit))
+            fruit = generate_fruit(win);
+
+        wrefresh(win);
+        wrefresh(score);
 
 		c = kbhit();
 
@@ -74,7 +78,13 @@ int main(int argc, char *argv[]){
 				direction = 'r';
 			change_direction(p, direction);
 		}
+
+        if(get_fruit(p, fruit))
+            score_up(p);
+
         if(collision(win, p)) break;
+
+        usleep(100000);
 	}
 
 	delwin(win);

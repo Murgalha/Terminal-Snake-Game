@@ -3,11 +3,7 @@
 
 #include <ncurses.h>
 #include <stdbool.h>
-
-typedef struct {
-	int x, y;
-} POINT;
-
+#include "utils.h"
 
 typedef struct {
 	char going;
@@ -23,5 +19,7 @@ void move_player(PLAYER *);
 void change_direction(PLAYER *, char);
 void draw_player(WINDOW *, PLAYER *);
 bool collision(WINDOW *, PLAYER *);
+void score_up(PLAYER *);
+int get_score(PLAYER *);
 
 #endif

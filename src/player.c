@@ -80,3 +80,11 @@ void draw_player(WINDOW *w, PLAYER *p) {
 		wrefresh(w);
 	}
 }
+
+void score_up(PLAYER *p) {
+	p->score++;
+}
+
+int get_score(PLAYER *p) {
+	return p->score;
+}
