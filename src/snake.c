@@ -34,32 +34,29 @@ int kbhit() {
 
 int main(int argc, char *argv[]){
 	int max_x, max_y, new_x, new_y;
+    int win_x, win_y;
 	int i = 1, j = 1;
 	PLAYER *p;
 	char c;
 
 	initscr();
 	noecho();
-	curs_set(0);
+	curs_set(FALSE);
 
 	getmaxyx(stdscr, max_y, max_x);
-
-	p = create_player(max_x/2, max_y/2);
 
     WINDOW *win = newwin(max_y - SCORE_SIZE, max_x, SCORE_SIZE, 0);
 	WINDOW *score = newwin(SCORE_SIZE, max_x, 0, 0);
 
-	//draw_borders(win);
+    p = create_player(max_y/2, max_x/2);
+
+	draw_borders(win);
 
 	while(1) {
-		/*getmaxyx(stdscr, new_y, new_x);
 
-		if (new_y != max_y || new_x != max_x)
-			resize_window(win, score, &max_x, &max_y, &new_x, &new_y);
-        */
 		move_player(p);
 		draw_player(win, p);
-		mvwprintw(score, 0, (max_x)/2-((strlen("Score: ")+4)/2), "Score: ");
+        mvwprintw(score, 0, (max_x)/2-((strlen("Score: ")+4)/2), "Score: ");
 
 		wrefresh(win);
 		wrefresh(score);
@@ -77,13 +74,9 @@ int main(int argc, char *argv[]){
 				direction = 'l';
 			else if(c == 'd')
 				direction = 'r';
-			else if(c == 'k')
-				break;
 			change_direction(p, direction);
 		}
-
-		//j = (j%(max_x-2))+1;
-		//if(j == 1) i = (i%(max_y-3))+1;
+        if(collision(win, p)) break;
 	}
 
 	delwin(win);

@@ -2,14 +2,10 @@
 #include <ncurses.h>
 #include "player.h"
 
-#define BOOLEAN int
-#define TRUE 1
-#define FALSE 0
-
 BOOLEAN collision(WINDOW *w, PLAYER *p) {
 	int border_x, border_y;
 
-	getmaxyx(w, border_x, border_y);
+	getmaxyx(w, border_y, border_x);
 
 	if(p->body[0].x == border_x-1 || p->body[0].x == 0)
 		return TRUE;
@@ -18,19 +14,16 @@ BOOLEAN collision(WINDOW *w, PLAYER *p) {
 	return FALSE;
 }
 
-PLAYER *create_player(int x, int y) {
+PLAYER *create_player(int y, int x) {
 	PLAYER *p = (PLAYER *) malloc (sizeof(PLAYER));
 	int i;
 
 	p->going = 'r';
 	p->score = 0;
 	p->body = (POINT *) malloc (sizeof(POINT));
-	/*
-	for(i = 0; i < 4; i++) {
-		(p->body)[i].x = x-i;
-		(p->body)[i].y = y;
-	}*/
-	// p->body_size = 4;
+	p->body[0].x = x;
+	p->body[0].y = y;
+
 	p->body_size = 1;
 	p->last_pos.x = -1;
 	p->last_pos.y = -1;
@@ -70,14 +63,13 @@ void change_direction(PLAYER *p, char cmd) {
 	if(p->going == cmd)
 		return;
 	p->going = cmd;
-	move_player(p);
 }
 
 void draw_player(WINDOW *w, PLAYER *p) {
 	int i;
 
-	//mvwprintw(w, p->last_pos.y, p->last_pos.x, " ");
-	//wrefresh(w);
+	mvwprintw(w, p->last_pos.y, p->last_pos.x, " ");
+	wrefresh(w);
 
 	for(i = 0; i < p->body_size; i++) {
 		mvwprintw(w, p->body[i].y, p->body[i].x, "o");

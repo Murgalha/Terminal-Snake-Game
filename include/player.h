@@ -3,9 +3,14 @@
 
 #include <ncurses.h>
 
+#define BOOLEAN int
+#define TRUE 1
+#define FALSE 0
+
 typedef struct {
 	int x, y;
 } POINT;
+
 
 typedef struct {
 	char going;
@@ -20,5 +25,6 @@ void destroy_player(PLAYER *);
 void move_player(PLAYER *);
 void change_direction(PLAYER *, char);
 void draw_player(WINDOW *, PLAYER *);
+BOOLEAN collision(WINDOW *, PLAYER *);
 
 #endif
