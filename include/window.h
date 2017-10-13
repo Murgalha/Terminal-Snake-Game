@@ -8,8 +8,8 @@
 
 void draw_borders(WINDOW *);
 POINT *generate_fruit(WINDOW *);
-bool vfp(PLAYER *, POINT *);
-bool get_fruit(PLAYER *, POINT *);
+int vfp(PLAYER *, POINT *);
+int get_fruit(PLAYER *, POINT *);
 void update_score(WINDOW *, int);
 void print_gameover(WINDOW *, int);
 

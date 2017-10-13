@@ -1,28 +1,27 @@
 #include <stdlib.h>
 #include <ncurses.h>
-#include <stdbool.h>
 #include "player.h"
 
-bool border_collision(WINDOW *w, PLAYER *p) {
+int border_collision(WINDOW *w, PLAYER *p) {
 	int border_x, border_y;
 
 	getmaxyx(w, border_y, border_x);
 
 	if(p->body[0].x == border_x-1 || p->body[0].x == 0)
-		return true;
+		return 1;
 	if(p->body[0].y == border_y-1 || p->body[0].y == 0)
-		return true;
-	return false;
+		return 1;
+	return 0;
 }
 
-bool self_collision(PLAYER *p) {
+int self_collision(PLAYER *p) {
 	int i;
 
 	for(i = 1; i < p->body_size; i++) {
 		if(p->body[0].x == p->body[i].x && p->body[0].y== p->body[i].y)
-			return true;
+			return 1;
 	}
-	return false;
+	return 0;
 }
 
 PLAYER *create_player(int y, int x) {

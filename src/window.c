@@ -45,23 +45,23 @@ POINT *generate_fruit(WINDOW *w) {
 	return random;
 }
 
-bool vfp(PLAYER *p, POINT *fruit) {
+int vfp(PLAYER *p, POINT *fruit) {
 	int i;
 
-	if(!fruit) return false;
+	if(!fruit) return 0;
 
 	for(i = 0; i < p->body_size; i++) {
 		if(fruit->x == p->body[i].x && fruit->y == p->body[i].y)
-			return false;
+			return 0;
 	}
-	return true;
+	return 1;
 }
-bool get_fruit(PLAYER *p, POINT *fruit) {
-	if(!fruit) return false;
+int get_fruit(PLAYER *p, POINT *fruit) {
+	if(!fruit) return 0;
 
 	if(p->body[0].x == fruit->x && p->body[0].y == fruit->y)
-		return true;
-	return false;
+		return 1;
+	return 0;
 }
 
 char *score2str(int score) {
