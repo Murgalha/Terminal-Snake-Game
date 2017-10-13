@@ -33,6 +33,12 @@ int kbhit() {
   return 0;
 }
 
+int is_valid(char c) {
+    if(c == 'w' || c == 'a' || c == 's' || c == 'd')
+        return 1;
+    return 0;
+}
+
 int main(int argc, char *argv[]){
 	int max_x, max_y, old_score, replay = 1;
     char c;
@@ -88,7 +94,8 @@ int main(int argc, char *argv[]){
     				direction = 'l';
     			else if(c == 'd')
     				direction = 'r';
-    			change_direction(p, direction);
+                if(is_valid(c))
+                    change_direction(p, direction);
     		}
 
             wrefresh(win);
