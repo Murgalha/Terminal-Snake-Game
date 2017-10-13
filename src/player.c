@@ -88,3 +88,47 @@ void score_up(PLAYER *p) {
 int get_score(PLAYER *p) {
 	return p->score;
 }
+
+void grow_up(PLAYER *p) {
+	int aux;
+
+	if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)+1) {
+		// must place down
+		aux = 1;
+	}
+	else if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)-1) {
+		// must place up
+		aux = 2;
+	}
+	else if(p->body[p->body_size-1].y == p->body[p->body_size-2].y && p->body[p->body_size-1].x == (p->body[p->body_size-2].x)+1) {
+		// must place right
+		aux = 3;
+	}
+	else {
+		// must place left
+		aux = 4;
+	}
+
+	p->body = (POINT *) realloc (p->body, sizeof(POINT)*((p->body_size)+1));
+
+	if(aux == 1) {
+		p->body[p->body_size].x = p->body[(p->body_size)-1].x;
+		p->body[p->body_size].y = (p->body[(p->body_size)-1].y)+1;
+	}
+
+	else if(aux == 2) {
+		p->body[p->body_size].x = p->body[(p->body_size)-1].x;
+		p->body[p->body_size].y = (p->body[(p->body_size)-1].y)-1;
+	}
+
+	else if(aux == 3) {
+		p->body[p->body_size].x = (p->body[(p->body_size)-1].x)+1;
+		p->body[p->body_size].y = p->body[(p->body_size)-1].y;
+	}
+
+	else {
+		p->body[p->body_size].x = (p->body[(p->body_size)-1].x)-1;
+		p->body[p->body_size].y = p->body[(p->body_size)-1].y;
+	}
+	(p->body_size)++;
+}

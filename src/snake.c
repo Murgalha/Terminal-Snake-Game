@@ -59,8 +59,10 @@ int main(int argc, char *argv[]){
 		draw_player(win, p);
         old_score = get_score(p);
 
-        if(get_fruit(p, fruit))
+        if(get_fruit(p, fruit)) {
             score_up(p);
+            grow_up(p);
+        }
 
         while(!vfp(p, fruit))
             fruit = generate_fruit(win);
@@ -88,9 +90,9 @@ int main(int argc, char *argv[]){
             old_score = get_score(p);
         }
 
-        if(collision(win, p)) break;
+        if(border_collision(win, p)) break;
 
-        usleep(60000);
+        usleep(100000);
 	}
 
 	delwin(win);

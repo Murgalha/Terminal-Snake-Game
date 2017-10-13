@@ -76,7 +76,6 @@ void update_score(WINDOW *w, int score) {
 	char *str;
 
 	getmaxyx(w, y, x);
-	y++;
 	str = score2str(score);
 
 	mvwprintw(w, 0, (x/2)-((strlen("Score: ")+strlen(str))/2), "Score: %s", str);
