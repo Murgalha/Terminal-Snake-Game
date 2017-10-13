@@ -7,7 +7,6 @@
 #include "utils.h"
 #include "window.h"
 
-
 void draw_borders(WINDOW *screen) {
 	int x, y, i;
 
@@ -81,4 +80,16 @@ void update_score(WINDOW *w, int score) {
 	mvwprintw(w, 0, (x/2)-((strlen("Score: ")+strlen(str))/2), "Score: %s", str);
 	wrefresh(w);
 	free(str);
+}
+
+void print_gameover(WINDOW *w, int score) {
+	int x, y;
+	char *str;
+
+	asprintf(&str, "You scored: %d. Press 'Q' to quit or 'R' to play again", score);
+
+	getmaxyx(w, y, x);
+
+	mvwprintw(w, y-1, (x/2)-(strlen(str)/2), str);
+	wrefresh(w);
 }

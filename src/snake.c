@@ -34,71 +34,88 @@ int kbhit() {
 }
 
 int main(int argc, char *argv[]){
-	int max_x, max_y, old_score;
+	int max_x, max_y, old_score, replay = 1;
+    char c;
 	PLAYER *p;
-	char c;
-    POINT *fruit = NULL;
+    POINT *fruit;
+    WINDOW *win, *score;
 
 	initscr();
 	noecho();
 	curs_set(FALSE);
 
-	getmaxyx(stdscr, max_y, max_x);
 
-    WINDOW *win = newwin(max_y - SCORE_SIZE, max_x, SCORE_SIZE, 0);
-	WINDOW *score = newwin(SCORE_SIZE, max_x, 0, 0);
+    while (replay) {
+        getmaxyx(stdscr, max_y, max_x);
 
-    p = create_player(max_y/2, max_x/2);
+        win = newwin(max_y - SCORE_SIZE, max_x, SCORE_SIZE, 0);
+        score = newwin(SCORE_SIZE, max_x, 0, 0);
 
-	draw_borders(win);
-    update_score(score, p->score);
+        p = create_player(max_y/2, max_x/2);
 
-	while(1) {
+        draw_borders(win);
+        update_score(score, p->score);
+        replay = 0;
+        fruit = NULL;
+        while(1) {
 
-		move_player(p);
-		draw_player(win, p);
-        old_score = get_score(p);
-
-        if(get_fruit(p, fruit)) {
-            score_up(p);
-            grow_up(p);
-        }
-
-        while(!vfp(p, fruit))
-            fruit = generate_fruit(win);
-
-        wrefresh(win);
-        wrefresh(score);
-
-		c = kbhit();
-
-		if(c) {
-			char direction;
-			if(c == 'w')
-				direction = 'u';
-			else if(c == 's')
-				direction = 'd';
-			else if(c == 'a')
-				direction = 'l';
-			else if(c == 'd')
-				direction = 'r';
-			change_direction(p, direction);
-		}
-
-        if(old_score != get_score(p)) {
-            update_score(score, p->score);
+    		move_player(p);
+    		draw_player(win, p);
             old_score = get_score(p);
-        }
 
-        if(border_collision(win, p) || self_collision(p))
+            if(get_fruit(p, fruit)) {
+                score_up(p);
+                grow_up(p);
+            }
+
+            while(!vfp(p, fruit))
+                fruit = generate_fruit(win);
+
+            if(old_score != get_score(p)) {
+                update_score(score, p->score);
+                old_score = get_score(p);
+            }
+
+    		c = kbhit();
+
+    		if(c) {
+    			char direction;
+    			if(c == 'w')
+    				direction = 'u';
+    			else if(c == 's')
+    				direction = 'd';
+    			else if(c == 'a')
+    				direction = 'l';
+    			else if(c == 'd')
+    				direction = 'r';
+    			change_direction(p, direction);
+    		}
+
+            wrefresh(win);
+            wrefresh(score);
+
+            if(border_collision(win, p) || self_collision(p)) {
+                print_dead(win, p);
+                break;
+            }
+
+            usleep(100000);
+    	}
+        print_gameover(score, p->score);
+
+        while(1) {
+        c = wgetch(win);
+        if(c == 'r') {
+            replay = 1;
             break;
-
-        usleep(100000);
-	}
-
-	delwin(win);
-	delwin(score);
-    destroy_player(p);
+        }
+        else if (c == 'q')
+            break;
+        }
+        destroy_player(p);
+        delwin(win);
+        delwin(score);
+    }
 
 	endwin();
 	return 0;

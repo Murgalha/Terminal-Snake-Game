@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include "utils.h"
 
+#define DEAD "X"
+
 typedef struct {
 	char going;
 	POINT *body;
@@ -23,5 +25,6 @@ void score_up(PLAYER *);
 int get_score(PLAYER *);
 void grow_up(PLAYER *);
 bool self_collision(PLAYER *);
+void print_dead(WINDOW *, PLAYER *);
 
 #endif

@@ -142,3 +142,8 @@ void grow_up(PLAYER *p) {
 	}
 	(p->body_size)++;
 }
+
+void print_dead(WINDOW *w, PLAYER *p) {
+	mvwprintw(w, p->body[0].y, p->body[0].x, DEAD);
+	wrefresh(w);
+}
