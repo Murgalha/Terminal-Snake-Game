@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "player.h"
 
-bool collision(WINDOW *w, PLAYER *p) {
+bool border_collision(WINDOW *w, PLAYER *p) {
 	int border_x, border_y;
 
 	getmaxyx(w, border_y, border_x);
@@ -82,7 +82,7 @@ void draw_player(WINDOW *w, PLAYER *p) {
 }
 
 void score_up(PLAYER *p) {
-	p->score++;
+	(p->score)++;
 }
 
 int get_score(PLAYER *p) {

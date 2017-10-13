@@ -1,8 +1,12 @@
+#define _GNU_SOURCE
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <ncurses.h>
 #include <time.h>
 #include "utils.h"
 #include "window.h"
+
 
 void draw_borders(WINDOW *screen) {
 	int x, y, i;
@@ -42,7 +46,7 @@ POINT *generate_fruit(WINDOW *w) {
 	return random;
 }
 
-bool vpp(PLAYER *p, POINT *fruit) {
+bool vfp(PLAYER *p, POINT *fruit) {
 	int i;
 
 	if(!fruit) return false;
@@ -54,9 +58,28 @@ bool vpp(PLAYER *p, POINT *fruit) {
 	return true;
 }
 bool get_fruit(PLAYER *p, POINT *fruit) {
-	int i;
+	if(!fruit) return false;
 
 	if(p->body[0].x == fruit->x && p->body[0].y == fruit->y)
 		return true;
 	return false;
+}
+
+char *score2str(int score) {
+	char *str;
+	asprintf(&str, "%d", score);
+	return str;
+}
+
+void update_score(WINDOW *w, int score) {
+	int x, y;
+	char *str;
+
+	getmaxyx(w, y, x);
+	y++;
+	str = score2str(score);
+
+	mvwprintw(w, 0, (x/2)-((strlen("Score: ")+strlen(str))/2), "Score: %s", str);
+	wrefresh(w);
+	free(str);
 }

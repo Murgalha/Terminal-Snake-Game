@@ -18,7 +18,7 @@ void destroy_player(PLAYER *);
 void move_player(PLAYER *);
 void change_direction(PLAYER *, char);
 void draw_player(WINDOW *, PLAYER *);
-bool collision(WINDOW *, PLAYER *);
+bool border_collision(WINDOW *, PLAYER *);
 void score_up(PLAYER *);
 int get_score(PLAYER *);
 

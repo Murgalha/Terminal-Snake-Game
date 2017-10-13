@@ -34,7 +34,7 @@ int kbhit() {
 }
 
 int main(int argc, char *argv[]){
-	int max_x, max_y;
+	int max_x, max_y, old_score;
 	PLAYER *p;
 	char c;
     POINT *fruit = NULL;
@@ -51,14 +51,18 @@ int main(int argc, char *argv[]){
     p = create_player(max_y/2, max_x/2);
 
 	draw_borders(win);
+    update_score(score, p->score);
 
 	while(1) {
 
 		move_player(p);
 		draw_player(win, p);
-        mvwprintw(score, 0, (max_x)/2-((strlen("Score: ")+4)/2), "Score: ");
+        old_score = get_score(p);
 
-        while(!vpp(p, fruit))
+        if(get_fruit(p, fruit))
+            score_up(p);
+
+        while(!vfp(p, fruit))
             fruit = generate_fruit(win);
 
         wrefresh(win);
@@ -79,12 +83,14 @@ int main(int argc, char *argv[]){
 			change_direction(p, direction);
 		}
 
-        if(get_fruit(p, fruit))
-            score_up(p);
+        if(old_score != get_score(p)) {
+            update_score(score, p->score);
+            old_score = get_score(p);
+        }
 
         if(collision(win, p)) break;
 
-        usleep(100000);
+        usleep(60000);
 	}
 
 	delwin(win);
