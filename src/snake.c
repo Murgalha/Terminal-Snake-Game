@@ -90,7 +90,8 @@ int main(int argc, char *argv[]){
             old_score = get_score(p);
         }
 
-        if(border_collision(win, p)) break;
+        if(border_collision(win, p) || self_collision(p))
+            break;
 
         usleep(100000);
 	}

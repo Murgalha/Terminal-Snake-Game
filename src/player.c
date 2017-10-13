@@ -15,6 +15,16 @@ bool border_collision(WINDOW *w, PLAYER *p) {
 	return false;
 }
 
+bool self_collision(PLAYER *p) {
+	int i;
+
+	for(i = 1; i < p->body_size; i++) {
+		if(p->body[0].x == p->body[i].x && p->body[0].y== p->body[i].y)
+			return true;
+	}
+	return false;
+}
+
 PLAYER *create_player(int y, int x) {
 	PLAYER *p = (PLAYER *) malloc (sizeof(PLAYER));
 	int i;

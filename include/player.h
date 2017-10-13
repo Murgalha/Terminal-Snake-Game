@@ -22,5 +22,6 @@ bool border_collision(WINDOW *, PLAYER *);
 void score_up(PLAYER *);
 int get_score(PLAYER *);
 void grow_up(PLAYER *);
+bool self_collision(PLAYER *);
 
 #endif
