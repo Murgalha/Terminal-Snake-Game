@@ -12,17 +12,19 @@ void draw_borders(WINDOW *screen) {
 
 	getmaxyx(screen, y, x);
 
-	// drawing side border
-	for (i = 1; i < y-1; i++) {
-		mvwprintw(screen, i, 0, "|");
-		mvwprintw(screen, i, x - 1, "|");
-	}
+	wattron(screen, COLOR_PAIR(4));
 
-	// top and bottom border
-	for(i = 1; i < x-1; i++) {
-		mvwprintw(screen, 0, i, "-");
-		mvwprintw(screen, y-1, i, "-");
+	// drawing side border
+	for (i = 0; i < y; i++) {
+		mvwprintw(screen, i, 0, " ");
+		mvwprintw(screen, i, x - 1, " ");
 	}
+	// top and bottom border
+	for(i = 0; i < x; i++) {
+		mvwprintw(screen, 0, i, " ");
+		mvwprintw(screen, y-1, i, " ");
+	}
+	wattroff(screen, COLOR_PAIR(4));
 }
 
 POINT *generate_fruit(WINDOW *w) {
@@ -39,8 +41,12 @@ POINT *generate_fruit(WINDOW *w) {
 	random->x = (rand()%(border_x-2))+1;
 	random->y = (rand()%(border_y-2))+1;
 
+	wattron(w, COLOR_PAIR(5));
+
 	mvwprintw(w, random->y, random->x, FRUIT);
 	wrefresh(w);
+
+	wattroff(w, COLOR_PAIR(5));
 
 	return random;
 }
@@ -87,9 +93,10 @@ void print_gameover(WINDOW *w, int score) {
 	char *str;
 
 	asprintf(&str, "You scored: %d. Press 'Q' to quit or 'R' to play again", score);
-
 	getmaxyx(w, y, x);
 
+	wattron(w, COLOR_PAIR(4));
 	mvwprintw(w, y-1, (x/2)-(strlen(str)/2), str);
 	wrefresh(w);
+	wattroff(w, COLOR_PAIR(4));
 }

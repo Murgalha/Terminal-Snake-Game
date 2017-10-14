@@ -83,11 +83,12 @@ void draw_player(WINDOW *w, PLAYER *p) {
 
 	mvwprintw(w, p->last_pos.y, p->last_pos.x, " ");
 	wrefresh(w);
-
+	wattron(w, COLOR_PAIR(2));
 	for(i = 0; i < p->body_size; i++) {
 		mvwprintw(w, p->body[i].y, p->body[i].x, "o");
 		wrefresh(w);
 	}
+	wattroff(w, COLOR_PAIR(2));
 }
 
 void score_up(PLAYER *p) {
@@ -143,6 +144,16 @@ void grow_up(PLAYER *p) {
 }
 
 void print_dead(WINDOW *w, PLAYER *p) {
-	mvwprintw(w, p->body[0].y, p->body[0].x, DEAD);
-	wrefresh(w);
+	if(border_collision(w, p)) {
+		wattron(w, COLOR_PAIR(4));
+		mvwprintw(w, p->body[0].y, p->body[0].x, DEAD);
+		wrefresh(w);
+		wattroff(w, COLOR_PAIR(4));
+	}
+	else {
+		wattron(w, COLOR_PAIR(3));
+		mvwprintw(w, p->body[0].y, p->body[0].x, DEAD);
+		wrefresh(w);
+		wattroff(w, COLOR_PAIR(3));
+	}
 }

@@ -10,27 +10,29 @@
 #include "window.h"
 #include "player.h"
 
+#define COLOR_GREY 8
+
 int kbhit() {
-  struct termios oldt, newt;
-  int ch;
-  int oldf;
+    struct termios oldt, newt;
+    int ch;
+    int oldf;
 
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
-  ch = getchar();
+    ch = getchar();
 
-  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-  fcntl(STDIN_FILENO, F_SETFL, oldf);
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-  if(ch != EOF)
+    if(ch != EOF)
     return ch;
 
-  return 0;
+    return 0;
 }
 
 int is_valid(char c) {
@@ -39,23 +41,48 @@ int is_valid(char c) {
     return 0;
 }
 
+void init_colors() {
+    init_color(COLOR_BLACK, 0, 0, 0);
+    init_color(COLOR_WHITE, 1000, 1000, 1000);
+    init_color(COLOR_RED, 700, 0, 0);
+    init_color(COLOR_GREEN, 0, 700, 0);
+    init_color(COLOR_BLUE, 0, 0, 500);
+    init_color(COLOR_GREY, 700, 700, 700);
+}
+
+void init_pairs() {
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    init_pair(2, COLOR_GREEN, COLOR_WHITE);
+    init_pair(3, COLOR_RED, COLOR_WHITE);
+    init_pair(4, COLOR_RED, COLOR_GREY);
+    init_pair(5, COLOR_BLUE, COLOR_WHITE);
+    init_pair(6, COLOR_BLACK, COLOR_GREY);
+}
+
 int main(int argc, char *argv[]){
-	int max_x, max_y, old_score, replay = 1;
+    int max_x, max_y, old_score, replay = 1;
     char c;
 	PLAYER *p;
     POINT *fruit;
     WINDOW *win, *score;
 
 	initscr();
+    start_color();
 	noecho();
 	curs_set(FALSE);
 
+    init_colors();
 
     while (replay) {
         getmaxyx(stdscr, max_y, max_x);
 
         win = newwin(max_y - SCORE_SIZE, max_x, SCORE_SIZE, 0);
         score = newwin(SCORE_SIZE, max_x, 0, 0);
+
+        init_pairs();
+
+        wbkgd(win, COLOR_PAIR(1));
+        wbkgd(score, COLOR_PAIR(6));
 
         p = create_player(max_y/2, max_x/2);
 
