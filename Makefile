@@ -1,13 +1,16 @@
 COMPILER=gcc
-FLAGS=-lncurses -Wall -g
+FLAGS=-lncurses
 SOURCE=src/*.c
 INCLUDE=-Iinclude
 BUILD=build/snake
 
-all: compile run
+all: install compile
 
 compile:
 	@$(COMPILER) -o $(BUILD) $(SOURCE) $(INCLUDE) $(FLAGS)
 
 run:
 	@$(BUILD)
+
+install:
+	@mkdir -p build
