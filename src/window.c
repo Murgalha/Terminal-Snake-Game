@@ -7,24 +7,24 @@
 #include "utils.h"
 #include "window.h"
 
-void draw_borders(WINDOW *screen) {
+void draw_borders(WINDOW *w) {
 	int x, y, i;
 
-	getmaxyx(screen, y, x);
+	getmaxyx(w, y, x);
 
-	wattron(screen, COLOR_PAIR(4));
+	wattron(w, COLOR_PAIR(4));
 
 	// drawing side border
 	for (i = 0; i < y; i++) {
-		mvwprintw(screen, i, 0, " ");
-		mvwprintw(screen, i, x - 1, " ");
+		mvwprintw(w, i, 0, " ");
+		mvwprintw(w, i, x - 1, " ");
 	}
 	// top and bottom border
 	for(i = 0; i < x; i++) {
-		mvwprintw(screen, 0, i, " ");
-		mvwprintw(screen, y-1, i, " ");
+		mvwprintw(w, 0, i, " ");
+		mvwprintw(w, y-1, i, " ");
 	}
-	wattroff(screen, COLOR_PAIR(4));
+	wattroff(w, COLOR_PAIR(4));
 }
 
 POINT *generate_fruit(WINDOW *w) {
@@ -49,25 +49,6 @@ POINT *generate_fruit(WINDOW *w) {
 	wattroff(w, COLOR_PAIR(5));
 
 	return random;
-}
-
-int vfp(PLAYER *p, POINT *fruit) {
-	int i;
-
-	if(!fruit) return 0;
-
-	for(i = 0; i < p->body_size; i++) {
-		if(fruit->x == p->body[i].x && fruit->y == p->body[i].y)
-			return 0;
-	}
-	return 1;
-}
-int get_fruit(PLAYER *p, POINT *fruit) {
-	if(!fruit) return 0;
-
-	if(p->body[0].x == fruit->x && p->body[0].y == fruit->y)
-		return 1;
-	return 0;
 }
 
 char *score2str(int score) {

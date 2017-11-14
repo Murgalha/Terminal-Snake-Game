@@ -4,16 +4,6 @@
 #include <ncurses.h>
 #include "utils.h"
 
-#define DEAD "X"
-
-typedef struct {
-	char going;
-	POINT *body;
-	int body_size;
-	int score;
-	POINT last_pos;
-} PLAYER;
-
 PLAYER *create_player(int, int);
 void destroy_player(PLAYER *);
 void move_player(PLAYER *);

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include "player.h"
+#include "utils.h"
 
 int border_collision(WINDOW *w, PLAYER *p) {
 	int border_x, border_y;
@@ -102,41 +103,25 @@ int get_score(PLAYER *p) {
 void grow_up(PLAYER *p) {
 	int aux;
 
-	if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)+1) {
-		// must place down
-		aux = 1;
-	}
-	else if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)-1) {
-		// must place up
-		aux = 2;
-	}
-	else if(p->body[p->body_size-1].y == p->body[p->body_size-2].y && p->body[p->body_size-1].x == (p->body[p->body_size-2].x)+1) {
-		// must place right
-		aux = 3;
-	}
-	else {
-		// must place left
-		aux = 4;
-	}
-
 	p->body = (POINT *) realloc (p->body, sizeof(POINT)*((p->body_size)+1));
 
-	if(aux == 1) {
+	if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)+1) {
+		// must place down
 		p->body[p->body_size].x = p->body[(p->body_size)-1].x;
 		p->body[p->body_size].y = (p->body[(p->body_size)-1].y)+1;
 	}
-
-	else if(aux == 2) {
+	else if(p->body[p->body_size-1].x == p->body[p->body_size-2].x && p->body[p->body_size-1].y == (p->body[p->body_size-2].y)-1) {
+		// must place up
 		p->body[p->body_size].x = p->body[(p->body_size)-1].x;
 		p->body[p->body_size].y = (p->body[(p->body_size)-1].y)-1;
 	}
-
-	else if(aux == 3) {
+	else if(p->body[p->body_size-1].y == p->body[p->body_size-2].y && p->body[p->body_size-1].x == (p->body[p->body_size-2].x)+1) {
+		// must place right
 		p->body[p->body_size].x = (p->body[(p->body_size)-1].x)+1;
 		p->body[p->body_size].y = p->body[(p->body_size)-1].y;
 	}
-
 	else {
+		// must place left
 		p->body[p->body_size].x = (p->body[(p->body_size)-1].x)-1;
 		p->body[p->body_size].y = p->body[(p->body_size)-1].y;
 	}

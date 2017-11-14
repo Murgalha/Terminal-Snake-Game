@@ -2,7 +2,7 @@ COMPILER=gcc
 FLAGS=-lncurses
 SOURCE=src/*.c
 INCLUDE=-Iinclude
-BUILD=build/snake
+BUILD=build/game
 
 all: install compile
 
