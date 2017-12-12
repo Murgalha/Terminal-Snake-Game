@@ -28,12 +28,15 @@ int kbhit() {
 }
 
 int is_valid(char c) {
+/* check the pressed key and set valid if
+  'w', 'a', 's' or 'd' */
     if(c == 'w' || c == 'a' || c == 's' || c == 'd')
         return 1;
     return 0;
 }
 
 void init_colors() {
+    /* initializing every color used in the game */
     init_color(COLOR_BLACK, 0, 0, 0);
     init_color(COLOR_WHITE, 1000, 1000, 1000);
     init_color(COLOR_RED, 700, 0, 0);
@@ -43,6 +46,8 @@ void init_colors() {
 }
 
 void init_pairs() {
+    /* initializing every color pair used
+    (foreground, background) */
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     init_pair(2, COLOR_GREEN, COLOR_WHITE);
     init_pair(3, COLOR_RED, COLOR_WHITE);

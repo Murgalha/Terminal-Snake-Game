@@ -14,12 +14,12 @@ void draw_borders(WINDOW *w) {
 
 	wattron(w, COLOR_PAIR(4));
 
-	// drawing side border
+	/* draw side border */
 	for (i = 0; i < y; i++) {
 		mvwprintw(w, i, 0, " ");
 		mvwprintw(w, i, x - 1, " ");
 	}
-	// top and bottom border
+	/* draw bottom and top border */
 	for(i = 0; i < x; i++) {
 		mvwprintw(w, 0, i, " ");
 		mvwprintw(w, y-1, i, " ");
@@ -33,11 +33,10 @@ POINT *generate_fruit(WINDOW *w) {
 
 	srand(time(NULL));
 
-	random->x = rand();
-	random->y = rand();
-
 	getmaxyx(w, border_y, border_x);
 
+	/* generate two random numbers inside
+	the window's limits */
 	random->x = (rand()%(border_x-2))+1;
 	random->y = (rand()%(border_y-2))+1;
 
@@ -53,6 +52,7 @@ POINT *generate_fruit(WINDOW *w) {
 
 char *score2str(int score) {
 	char *str;
+	/* saving 'score' value on char* */
 	asprintf(&str, "%d", score);
 	return str;
 }
@@ -62,8 +62,9 @@ void update_score(WINDOW *w, int score) {
 	char *str;
 
 	getmaxyx(w, y, x);
+	/* get current score as char* */
 	str = score2str(score);
-
+	/* update score window */
 	mvwprintw(w, 0, (x/2)-((strlen("Score: ")+strlen(str))/2), "Score: %s", str);
 	wrefresh(w);
 	free(str);
@@ -72,10 +73,11 @@ void update_score(WINDOW *w, int score) {
 void print_gameover(WINDOW *w, int score) {
 	int x, y;
 	char *str;
-
+	/* saving message on a char* */
 	asprintf(&str, "You scored: %d. Press 'Q' to quit or 'R' to play again", score);
 	getmaxyx(w, y, x);
 
+	/* print game over message */
 	wattron(w, COLOR_PAIR(4));
 	mvwprintw(w, y-1, (x/2)-(strlen(str)/2), str);
 	wrefresh(w);
