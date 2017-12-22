@@ -7,6 +7,12 @@
 /* define the size of the score screen */
 #define SCORE_SIZE 1
 
+/* define main game window width */
+#define MAIN_SIZE_W 80
+
+/* define main game window height */
+#define MAIN_SIZE_H 24
+
 /* draw the borders of the playing window */
 void draw_borders(WINDOW *);
 

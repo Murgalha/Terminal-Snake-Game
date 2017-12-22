@@ -10,6 +10,7 @@
 
 int main(int argc, char *argv[]){
     int max_x, max_y, old_score, replay = 1;
+    int initial_x, initial_y;
     char c;
 	PLAYER *p;
     POINT *fruit;
@@ -26,11 +27,18 @@ int main(int argc, char *argv[]){
     init_colors();
 
     while (replay) {
-        getmaxyx(stdscr, max_y, max_x);
+        wrefresh(stdscr);
+        max_y = MAIN_SIZE_H;
+        max_x = MAIN_SIZE_W;
+
+        getmaxyx(stdscr, initial_y, initial_x);
+
+        initial_x = (initial_x/2) - (max_x/2);
+        initial_y = (initial_y/2) - (max_y/2);
 
         /* set window size */
-        win = newwin(max_y - SCORE_SIZE, max_x, SCORE_SIZE, 0);
-        score = newwin(SCORE_SIZE, max_x, 0, 0);
+        win = newwin(max_y-SCORE_SIZE, max_x, initial_y+SCORE_SIZE, initial_x);
+        score = newwin(SCORE_SIZE, max_x, initial_y, initial_x);
 
         init_pairs();
 
@@ -117,7 +125,7 @@ int main(int argc, char *argv[]){
             else if (c == 'q')
                 break;
         }
-
+        werase(stdscr);
         /* freeing memory */
         destroy_player(p);
         delwin(win);
