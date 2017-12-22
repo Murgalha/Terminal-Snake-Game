@@ -109,7 +109,11 @@ int main(int argc, char *argv[]){
             }
 
             /* reduce clock speed for the game */
-            usleep(100000);
+            /* change snake speed when going up or down */
+            if(p->going == 'u' || p->going == 'd')
+                usleep(130000);
+            else
+                usleep(100000);
     	}
         /* game over screen */
         print_gameover(score, p->score);
