@@ -2,15 +2,12 @@ COMPILER=gcc
 FLAGS=-lncurses -ltinfo
 SOURCE=src/*.c
 INCLUDE=-Iinclude
-BUILD=build/game
+BUILD=snake
 
-all: install compile
+all: compile
 
 compile:
 	@$(COMPILER) -o $(BUILD) $(SOURCE) $(INCLUDE) $(FLAGS)
 
 run:
-	@$(BUILD)
-
-install:
-	@mkdir -p build
+	@./$(BUILD)
