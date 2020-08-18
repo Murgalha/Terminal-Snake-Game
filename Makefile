@@ -1,5 +1,5 @@
 COMPILER=gcc
-FLAGS=-lncurses
+FLAGS=-lncurses -ltinfo
 SOURCE=src/*.c
 INCLUDE=-Iinclude
 BUILD=build/game
