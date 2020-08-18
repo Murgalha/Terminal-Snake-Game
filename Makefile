@@ -1,4 +1,4 @@
-COMPILER=gcc
+COMPILER=cc
 FLAGS=-lncurses -ltinfo
 SOURCE=src/*.c
 INCLUDE=-Iinclude
